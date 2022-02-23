@@ -83,7 +83,7 @@ function Profile() {
       className="mb-3"
     >
       <Tab eventKey="Answared Questions" title="Answared Questions">
-        <Container className=" align-items-center">
+        {/* <Container className=" align-items-center">
           {questions.map((question, i) => {
             return (
               <QuestionCard
@@ -93,7 +93,7 @@ function Profile() {
               />
             );
           })}
-        </Container>
+        </Container> */}
       </Tab>
       <Tab eventKey="Un Answared Questions" title="Un Answared Questions">
         hi 2

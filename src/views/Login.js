@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { loadUsers } from "../actions/users";
 import { getAllUsers } from "../DATA";
-import Select from "react-select";
+// import Select from "react-select";
 import Button from "react-bootstrap/Button";
-import { Row, Col, Container, Stack } from "react-bootstrap";
+import { Row, Col, Container, Stack , Form} from "react-bootstrap";
 
 function Login() {
   const dispatch = useDispatch();
@@ -17,10 +17,24 @@ function Login() {
     <Container>
       <Stack className="col-md-5 mx-auto">
         <Row  style={{ height: "300px" }} className="align-items-center">
-          <Col>
-          {users != null ? 
-          <Select options={Object.keys(users)} /> : 
-          <p>" There is No users"</p>}
+        <Col>
+            {users != null ? (
+              <Form.Select defaultValue={"DEFAULT"} size="lg">
+                <option value="DEFAULT" disabled>
+                  Select User...
+                </option>
+                {users !== [] &&
+                  users.map((user, i) => {
+                    return (
+                      <option key={i} value={user.id}>
+                        {user.fullname}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+            ) : (
+              <p>" There is No users"</p>
+            )}
           </Col>
           <Col>
             <Button variant="secondary">Login</Button>
