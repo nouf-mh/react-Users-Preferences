@@ -1,8 +1,11 @@
-import {LOAD_USERS} from "../actions/types.js";
+import {LOAD_USERS, AUTH_USER} from "../actions/types.js";
 
 export default function users (state = [], action){
     if(action.type === LOAD_USERS)
         return {users:action.users}
+    if(action.type === AUTH_USER){
+        return {auth_user:action.authUser , loggedIn:action.loggedIn}
+    }
     else{
         return state;
     }

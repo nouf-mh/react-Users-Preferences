@@ -1,60 +1,57 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUsers } from "../actions/users";
+import { loadUsers, auth } from "../actions/users";
 import { getAllUsers } from "../DATA";
-// import Select from "react-select";
 import Button from "react-bootstrap/Button";
-import { Row, Col, Container, Stack , Form} from "react-bootstrap";
+import { Row, Col, Container, Stack, Form } from "react-bootstrap";
+import { Navigate } from 'react-router-dom';
 
 function Login() {
-  const dispatch = useDispatch();
   useEffect(() => {
     getAllUsers().then((res) => dispatch(loadUsers(res)));
+    document.body.style.backgroundColor = "lightgray";
   }, []);
   const users = useSelector((state) => state.users.users);
-  console.log(users)
+  const dispatch = useDispatch();
+  const [selectedUser, setUser] = useState(null);
+
+  function authenticatedUser() {
+    dispatch(auth(selectedUser));
+    return <Navigate to="/Profile" replace={true}/>
+  }
   return (
-    <Container>
-      <Stack className="col-md-5 mx-auto">
-        <Row  style={{ height: "300px" }} className="align-items-center">
-        <Col>
-            {users != null ? (
-              <Form.Select defaultValue={"DEFAULT"} size="lg">
-                <option value="DEFAULT" disabled>
-                  Select User...
-                </option>
-                {users !== [] &&
-                  users.map((user, i) => {
-                    return (
-                      <option key={i} value={user.id}>
-                        {user.fullname}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            ) : (
-              <p>" There is No users"</p>
-            )}
+    <Container className="container">
+      <Stack gap={2} className="col-md-5 mx-auto">
+        <Row className="align-items-center text-center min-vh-100">
+          <Col>
+            <Form.Select
+              defaultValue={"DEFAULT"}
+              size="lg"
+              onChange={(e) => setUser(e.target.value)}
+            >
+              <option value="DEFAULT" disabled>
+                Select User...
+              </option>
+              {users != null &&
+                Object.values(users).map((user, i) => {
+                  return (
+                    <option key={i} value={user.fullname}>
+                      {user.fullname}
+                    </option>
+                  );
+                })}
+            </Form.Select>
           </Col>
           <Col>
-            <Button variant="secondary">Login</Button>
+            <Button variant="secondary" onClick={() => authenticatedUser()}>
+              Login
+            </Button>
           </Col>
         </Row>
       </Stack>
+      {/* // : ( // <Spinner className="loading" animation="grow" />
+      // )} */}
     </Container>
   );
 }
 export default Login;
-{
-  /* <select defaultValue={'DEFAULT'}>
-            <option value="DEFAULT" disabled>
-             className="justify-content-md-center"    Select User...
-            </option>
-            {users !== [] && users.map((user, i) => {
-                return (
-                    <option key={i} value={user.fullname}>
-                        {user}
-                    </option>
-                ) })}
-        </select> */
-}

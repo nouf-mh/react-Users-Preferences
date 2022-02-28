@@ -36,9 +36,15 @@
     transform: rotate(360deg);
   }
 }
-
+body {
+  background-color: green;
+}
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  /* background-color: lightgray; */
+}
+.loading {
+  position: absolute;
+  top: 50%;
+  left:50%;
 }
